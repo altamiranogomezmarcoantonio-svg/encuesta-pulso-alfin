@@ -95,14 +95,14 @@
     margin:26px 0 14px;
   }
   .block-title small{font-weight:500;font-size:11.5px;color:var(--grey);}
-  .likert-legend{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+  .likert-legend{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
   .likert-legend div{
     background:var(--purple-tint);border-radius:9px;padding:8px 6px;text-align:center;
   }
   .likert-legend b{display:block;color:var(--purple);font-size:16px;}
   .likert-legend span{display:block;font-size:9.5px;color:var(--ink);line-height:1.25;margin-top:2px;}
   @media (max-width:420px){
-    .likert-legend{grid-template-columns:repeat(5,1fr);}
+    .likert-legend{grid-template-columns:repeat(3,1fr);}
     .likert-legend span{font-size:8.5px;}
   }
   .q{
@@ -230,11 +230,9 @@
     <div class="card" id="likertLegend">
       <div class="label" style="margin-bottom:10px;">Escala del bloque siguiente — así se lee cada número</div>
       <div class="likert-legend">
-        <div><b>1</b><span>Totalmente en desacuerdo</span></div>
-        <div><b>2</b><span>En desacuerdo</span></div>
-        <div><b>3</b><span>Ni de acuerdo ni en desacuerdo</span></div>
-        <div><b>4</b><span>De acuerdo</span></div>
-        <div><b>5</b><span>Totalmente de acuerdo</span></div>
+        <div><b>1</b><span>En desacuerdo</span></div>
+        <div><b>2</b><span>Ni de acuerdo ni en desacuerdo</span></div>
+        <div><b>3</b><span>De acuerdo</span></div>
       </div>
     </div>
 
@@ -303,7 +301,7 @@ preguntas.forEach((q, i) => {
   qDiv.appendChild(p);
   const scale = document.createElement('div');
   scale.className = 'scale5';
-  for (let n = 1; n <= 5; n++) {
+  for (let n = 1; n <= 3; n++) {
     const opt = document.createElement('div');
     opt.className = 'opt';
     opt.textContent = n;
