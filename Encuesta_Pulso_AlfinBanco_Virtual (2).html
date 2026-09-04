@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encuesta de Pulso · Alfin Banco</title>
+<style>
+  :root{
+    --orange:#F5821F;
+    --orange-dark:#D96A0E;
+    --orange-tint:#FDEBD8;
+    --purple:#5B2A78;
+    --purple-dark:#43205A;
+    --purple-tint:#F1E8F5;
+    --ink:#2B2320;
+    --grey:#7A716C;
+    --line:#EAE1D8;
+    --bg:#FBF7F2;
+    --white:#FFFFFF;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+  }
+  .wrap{max-width:640px;margin:0 auto;padding-bottom:60px;}
+  .hero{
+    background:linear-gradient(120deg,var(--orange) 0%, var(--orange) 45%, var(--purple) 100%);
+    padding:36px 24px 30px;
+    color:var(--white);
+    border-radius:0 0 28px 28px;
+  }
+  .wordmark{font-size:26px;font-weight:800;letter-spacing:-0.5px;}
+  .wordmark span{font-weight:400;opacity:.92;}
+  .hero h1{font-size:19px;margin:14px 0 6px;font-weight:700;}
+  .hero p{font-size:13.5px;margin:0;opacity:.95;line-height:1.5;max-width:46ch;}
+  .section{padding:22px 22px 4px;}
+  .card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:18px 18px;
+    margin-bottom:16px;
+  }
+  .label{
+    display:block;font-size:12.5px;font-weight:700;color:var(--purple);
+    margin-bottom:6px;text-transform:none;
+  }
+  input[type=text], select, textarea{
+    width:100%;
+    padding:11px 12px;
+    border:1.4px solid var(--line);
+    border-radius:10px;
+    font-size:15px;
+    font-family:inherit;
+    color:var(--ink);
+    background:var(--bg);
+  }
+  textarea{resize:vertical;min-height:80px;}
+  input[type=text]:focus, select:focus, textarea:focus{
+    outline:none;border-color:var(--orange);
+  }
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .segmented{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;}
+  .seg-btn{
+    flex:1 1 auto;
+    padding:9px 10px;
+    border:1.4px solid var(--line);
+    border-radius:9px;
+    background:var(--bg);
+    font-size:13.5px;
+    text-align:center;
+    cursor:pointer;
+    color:var(--ink);
+    user-select:none;
+    transition:.15s;
+  }
+  .seg-btn.active{
+    background:var(--purple);
+    border-color:var(--purple);
+    color:var(--white);
+    font-weight:600;
+  }
+  .block-title{
+    display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+    background:var(--orange-tint);
+    color:var(--orange-dark);
+    font-weight:800;
+    font-size:14.5px;
+    padding:9px 14px;
+    border-radius:9px;
+    margin:26px 0 14px;
+  }
+  .block-title small{font-weight:500;font-size:11.5px;color:var(--grey);}
+  .likert-legend{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+  .likert-legend div{
+    background:var(--purple-tint);border-radius:9px;padding:8px 6px;text-align:center;
+  }
+  .likert-legend b{display:block;color:var(--purple);font-size:16px;}
+  .likert-legend span{display:block;font-size:9.5px;color:var(--ink);line-height:1.25;margin-top:2px;}
+  @media (max-width:420px){
+    .likert-legend{grid-template-columns:repeat(5,1fr);}
+    .likert-legend span{font-size:8.5px;}
+  }
+  .q{
+    padding:14px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .q:last-child{border-bottom:none;}
+  .q p{margin:0 0 10px;font-size:14.5px;line-height:1.4;}
+  .scale5{display:flex;justify-content:space-between;gap:6px;}
+  .scale5 .opt{
+    flex:1;
+    text-align:center;
+    padding:9px 0;
+    border:1.4px solid var(--line);
+    border-radius:9px;
+    font-weight:700;
+    font-size:14px;
+    cursor:pointer;
+    color:var(--grey);
+    background:var(--bg);
+  }
+  .scale5 .opt.active{
+    background:var(--purple);
+    color:var(--white);
+    border-color:var(--purple);
+  }
+  .nps{display:flex;flex-wrap:wrap;gap:6px;}
+  .nps .opt{
+    width:calc(100%/11 - 6px);
+    min-width:30px;
+    text-align:center;
+    padding:9px 0;
+    border:1.4px solid var(--line);
+    border-radius:8px;
+    font-weight:700;
+    font-size:13px;
+    cursor:pointer;
+    background:var(--bg);
+    color:var(--grey);
+  }
+  .nps .opt.active{background:var(--orange);border-color:var(--orange);color:var(--white);}
+  .nps-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--grey);margin-top:6px;}
+  .submit-btn{
+    width:100%;
+    padding:15px;
+    background:var(--purple);
+    color:var(--white);
+    border:none;
+    border-radius:12px;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+    margin-top:8px;
+  }
+  .submit-btn:disabled{opacity:.5;cursor:default;}
+  .hint{font-size:12px;color:var(--grey);text-align:center;margin-top:10px;}
+  .error{color:var(--orange-dark);font-size:12.5px;margin-top:8px;display:none;}
+  .thanks{
+    text-align:center;
+    padding:70px 26px;
+  }
+  .thanks .badge{
+    width:64px;height:64px;border-radius:50%;
+    background:linear-gradient(135deg,var(--orange),var(--purple));
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 20px;color:#fff;font-size:30px;
+  }
+  .thanks h2{margin:0 0 8px;font-size:20px;}
+  .thanks p{color:var(--grey);font-size:14px;line-height:1.5;}
+  footer{text-align:center;font-size:11.5px;color:var(--grey);padding:20px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="wordmark">alfin<span> banco</span></div>
+    <h1>Encuesta de Pulso · Tu Lugar Alfin</h1>
+    <p>Tu respuesta es anónima y toma menos de 3 minutos. Ayúdanos a mejorar tu experiencia en Alfin.</p>
+  </div>
+
+  <div class="section" id="formSection">
+    <div class="card">
+      <div class="label">Agencia</div>
+      <input type="text" id="agencia" placeholder="Ej. Agencia San Isidro">
+      <div style="height:12px"></div>
+      <div class="row2">
+        <div>
+          <div class="label">Puesto</div>
+          <input type="text" id="puesto" placeholder="Tu puesto">
+        </div>
+        <div>
+          <div class="label">Sexo</div>
+          <div class="segmented" id="sexo">
+            <div class="seg-btn" data-v="Femenino">Femenino</div>
+            <div class="seg-btn" data-v="Masculino">Masculino</div>
+          </div>
+        </div>
+      </div>
+      <div style="height:12px"></div>
+      <div class="row2">
+        <div>
+          <div class="label">Edad</div>
+          <select id="edad">
+            <option value="">Selecciona</option>
+            <option>Menor de 20 años</option>
+            <option>21 a 30 años</option>
+            <option>30 a 40 años</option>
+            <option>40 a 50 años</option>
+            <option>Mayor de 50 años</option>
+          </select>
+        </div>
+        <div>
+          <div class="label">Antigüedad</div>
+          <select id="antiguedad">
+            <option value="">Selecciona</option>
+            <option>Menos de 6 meses</option>
+            <option>6 a 12 meses</option>
+            <option>1 a 3 años</option>
+            <option>Más de 3 años</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="likertLegend">
+      <div class="label" style="margin-bottom:10px;">Escala del bloque siguiente — así se lee cada número</div>
+      <div class="likert-legend">
+        <div><b>1</b><span>Totalmente en desacuerdo</span></div>
+        <div><b>2</b><span>En desacuerdo</span></div>
+        <div><b>3</b><span>Ni de acuerdo ni en desacuerdo</span></div>
+        <div><b>4</b><span>De acuerdo</span></div>
+        <div><b>5</b><span>Totalmente de acuerdo</span></div>
+      </div>
+    </div>
+
+    <div class="block-title">Clima y experiencia laboral</div>
+    <div class="card" id="bloque1"></div>
+
+    <div class="block-title">Recomendación</div>
+    <div class="card">
+      <p style="font-size:14.5px;margin:0 0 12px;">¿Qué tan probable es que recomiendes a Alfin Banco como un buen lugar para trabajar?</p>
+      <div class="nps" id="nps"></div>
+      <div class="nps-labels"><span>0 = Nada probable</span><span>10 = Totalmente probable</span></div>
+    </div>
+
+    <div class="block-title">Tu idea de mejora</div>
+    <div class="card">
+      <p style="font-size:14.5px;margin:0 0 10px;">¿Qué es lo único que cambiarías para mejorar tu experiencia trabajando en Alfin?</p>
+      <textarea id="comentario" placeholder="Escribe tu respuesta aquí..."></textarea>
+    </div>
+
+    <div class="error" id="errorMsg">Por favor responde todas las preguntas del Bloque 1 y la de recomendación antes de enviar.</div>
+    <button class="submit-btn" id="submitBtn">Enviar respuesta</button>
+    <p class="hint">Tus respuestas son confidenciales y se usan solo para mejorar Alfin.</p>
+  </div>
+
+  <div class="section" id="thanksSection" style="display:none;">
+    <div class="thanks">
+      <div class="badge">✓</div>
+      <h2>¡Gracias por tu respuesta!</h2>
+      <p>Tu opinión nos ayuda a construir un mejor lugar para trabajar en Alfin.</p>
+    </div>
+  </div>
+
+  <footer>Alfin Banco · Capital Humano — Tu Lugar Alfin</footer>
+</div>
+
+<script>
+// ⚠️ CONFIGURACIÓN — pega aquí la URL de tu Apps Script (termina en /exec)
+// Instrucciones completas en el archivo AppsScript_Backend_EncuestaPulso.gs
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzY5tmcEcw1MBFdEUOwZC4H_VnPSbfmU6VNPsTYO_br1rr4WeSlVKdhH8UVx_cSQc41/exec";
+
+const preguntas = [
+  "Mi jefe directo se preocupa genuinamente por mi bienestar.",
+  "Confío en las decisiones que toma el liderazgo de mi agencia.",
+  "Recibo la información que necesito para hacer bien mi trabajo, de manera oportuna.",
+  "Siento que en Alfin la comunicación es clara y honesta.",
+  "Siento que mi esfuerzo y resultados son reconocidos.",
+  "Cuando hago un buen trabajo, recibo una retroalimentación positiva.",
+  "Mi carga de trabajo actual es manejable.",
+  "Puedo equilibrar mi vida laboral y personal.",
+  "Tengo oportunidades reales de crecer dentro de Alfin.",
+  "Cuento con las herramientas y capacitación necesarias para desarrollarme.",
+  "Existe buena colaboración entre mi agencia y otras áreas o agencias.",
+  "Me siento parte de un equipo que trabaja unido hacia un mismo objetivo."
+];
+
+const respuestas1 = new Array(preguntas.length).fill(null);
+let npsValue = null;
+let sexoValue = null;
+
+const bloque1El = document.getElementById('bloque1');
+preguntas.forEach((q, i) => {
+  const qDiv = document.createElement('div');
+  qDiv.className = 'q';
+  const p = document.createElement('p');
+  p.textContent = q;
+  qDiv.appendChild(p);
+  const scale = document.createElement('div');
+  scale.className = 'scale5';
+  for (let n = 1; n <= 5; n++) {
+    const opt = document.createElement('div');
+    opt.className = 'opt';
+    opt.textContent = n;
+    opt.addEventListener('click', () => {
+      respuestas1[i] = n;
+      [...scale.children].forEach(c => c.classList.remove('active'));
+      opt.classList.add('active');
+    });
+    scale.appendChild(opt);
+  }
+  qDiv.appendChild(scale);
+  bloque1El.appendChild(qDiv);
+  if (i < preguntas.length - 1) {
+    // border-bottom handled by CSS on .q
+  }
+});
+
+const npsEl = document.getElementById('nps');
+for (let n = 0; n <= 10; n++) {
+  const opt = document.createElement('div');
+  opt.className = 'opt';
+  opt.textContent = n;
+  opt.addEventListener('click', () => {
+    npsValue = n;
+    [...npsEl.children].forEach(c => c.classList.remove('active'));
+    opt.classList.add('active');
+  });
+  npsEl.appendChild(opt);
+}
+
+document.querySelectorAll('#sexo .seg-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    sexoValue = btn.dataset.v;
+    document.querySelectorAll('#sexo .seg-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+document.getElementById('submitBtn').addEventListener('click', async () => {
+  const errorMsg = document.getElementById('errorMsg');
+  if (respuestas1.includes(null) || npsValue === null) {
+    errorMsg.style.display = 'block';
+    return;
+  }
+  errorMsg.style.display = 'none';
+
+  const payload = {
+    agencia: document.getElementById('agencia').value.trim(),
+    puesto: document.getElementById('puesto').value.trim(),
+    sexo: sexoValue,
+    edad: document.getElementById('edad').value,
+    antiguedad: document.getElementById('antiguedad').value,
+    bloque1: preguntas.map((q, i) => ({ pregunta: q, respuesta: respuestas1[i] })),
+    nps: npsValue,
+    comentario: document.getElementById('comentario').value.trim(),
+    enviado_en: new Date().toISOString()
+  };
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+
+  if (!SCRIPT_URL || SCRIPT_URL.indexOf('PEGA_AQUI') !== -1) {
+    btn.disabled = false;
+    btn.textContent = 'Enviar respuesta';
+    errorMsg.textContent = 'Este formulario aún no está conectado a la hoja de respuestas. Configura SCRIPT_URL en el código (ver AppsScript_Backend_EncuestaPulso.gs).';
+    errorMsg.style.display = 'block';
+    return;
+  }
+
+  try {
+    // Envío vía formulario oculto + iframe: evita bloqueos de CORS al
+    // enviar datos a Google Apps Script desde una página estática.
+    let iframe = document.getElementById('hiddenFrame');
+    if (!iframe) {
+      iframe = document.createElement('iframe');
+      iframe.name = 'hiddenFrame';
+      iframe.id = 'hiddenFrame';
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+    }
+
+    const form = document.createElement('form');
+    form.action = SCRIPT_URL;
+    form.method = 'POST';
+    form.target = 'hiddenFrame';
+    form.enctype = 'text/plain'; // evita preflight CORS
+
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'payload';
+    input.value = JSON.stringify(payload);
+    form.appendChild(input);
+
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+
+    setTimeout(() => {
+      document.getElementById('formSection').style.display = 'none';
+      document.getElementById('thanksSection').style.display = 'block';
+      window.scrollTo(0, 0);
+    }, 700);
+  } catch (e) {
+    btn.disabled = false;
+    btn.textContent = 'Enviar respuesta';
+    errorMsg.textContent = 'Hubo un problema al enviar tu respuesta. Intenta de nuevo.';
+    errorMsg.style.display = 'block';
+  }
+});
+</script>
+</body>
+</html>
