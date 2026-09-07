@@ -160,6 +160,7 @@
   .submit-btn:disabled{opacity:.5;cursor:default;}
   .hint{font-size:12px;color:var(--grey);text-align:center;margin-top:10px;}
   .error{color:var(--orange-dark);font-size:12.5px;margin-top:8px;display:none;}
+  .field-error{color:var(--orange-dark);font-size:11.5px;margin-top:5px;display:none;}
   .thanks{
     text-align:center;
     padding:70px 26px;
@@ -205,14 +206,8 @@
       <div class="row2">
         <div>
           <div class="label">Edad</div>
-          <select id="edad">
-            <option value="">Selecciona</option>
-            <option>Menor de 20 años</option>
-            <option>21 a 30 años</option>
-            <option>30 a 40 años</option>
-            <option>40 a 50 años</option>
-            <option>Mayor de 50 años</option>
-          </select>
+          <input type="text" id="edad" inputmode="numeric" placeholder="Ej. 28" maxlength="2">
+          <div class="field-error" id="edadError">Por favor coloca solo el número (sin la palabra "años").</div>
         </div>
         <div>
           <div class="label">Antigüedad</div>
@@ -340,6 +335,19 @@ document.querySelectorAll('#sexo .seg-btn').forEach(btn => {
     document.querySelectorAll('#sexo .seg-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
   });
+});
+
+const edadInput = document.getElementById('edad');
+const edadError = document.getElementById('edadError');
+edadInput.addEventListener('input', () => {
+  const original = edadInput.value;
+  const cleaned = original.replace(/[^0-9]/g, '').slice(0, 2);
+  if (cleaned !== original) {
+    edadError.style.display = 'block';
+  } else {
+    edadError.style.display = 'none';
+  }
+  edadInput.value = cleaned;
 });
 
 document.getElementById('submitBtn').addEventListener('click', async () => {
