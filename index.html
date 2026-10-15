@@ -186,8 +186,8 @@
 
   <div class="section" id="formSection">
     <div class="card">
-      <div class="label">Agencia</div>
-      <input type="text" id="agencia" placeholder="Ej. Agencia San Isidro">
+      <div class="label">Agencia / Oficina</div>
+      <input type="text" id="agencia" placeholder="Ej. Agencia Comas / Oficina Lima Sur 1">
       <div style="height:12px"></div>
       <div class="row2">
         <div>
@@ -195,31 +195,20 @@
           <input type="text" id="puesto" placeholder="Tu puesto">
         </div>
         <div>
-          <div class="label">Sexo</div>
-          <div class="segmented" id="sexo">
-            <div class="seg-btn" data-v="Femenino">Femenino</div>
-            <div class="seg-btn" data-v="Masculino">Masculino</div>
-          </div>
-        </div>
-      </div>
-      <div style="height:12px"></div>
-      <div class="row2">
-        <div>
           <div class="label">Edad</div>
           <input type="text" id="edad" inputmode="numeric" placeholder="Ej. 28" maxlength="2">
           <div class="field-error" id="edadError">Por favor coloca solo el número (sin la palabra "años").</div>
         </div>
-        <div>
-          <div class="label">Antigüedad</div>
-          <select id="antiguedad">
-            <option value="">Selecciona</option>
-            <option>Menos de 6 meses</option>
-            <option>6 a 12 meses</option>
-            <option>1 a 3 años</option>
-            <option>Más de 3 años</option>
-          </select>
-        </div>
       </div>
+      <div style="height:12px"></div>
+      <div class="label">Antigüedad</div>
+      <select id="antiguedad">
+        <option value="">Selecciona</option>
+        <option>Menos de 6 meses</option>
+        <option>6 a 12 meses</option>
+        <option>1 a 3 años</option>
+        <option>Más de 3 años</option>
+      </select>
     </div>
 
     <div class="card" id="likertLegend">
@@ -287,7 +276,6 @@ const preguntas = [
 
 const respuestas1 = new Array(preguntas.length).fill(null);
 let npsValue = null;
-let sexoValue = null;
 
 const bloque1El = document.getElementById('bloque1');
 preguntas.forEach((q, i) => {
@@ -329,14 +317,6 @@ for (let n = 0; n <= 10; n++) {
   npsEl.appendChild(opt);
 }
 
-document.querySelectorAll('#sexo .seg-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    sexoValue = btn.dataset.v;
-    document.querySelectorAll('#sexo .seg-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-  });
-});
-
 const edadInput = document.getElementById('edad');
 const edadError = document.getElementById('edadError');
 edadInput.addEventListener('input', () => {
@@ -361,7 +341,6 @@ document.getElementById('submitBtn').addEventListener('click', async () => {
   const payload = {
     agencia: document.getElementById('agencia').value.trim(),
     puesto: document.getElementById('puesto').value.trim(),
-    sexo: sexoValue,
     edad: document.getElementById('edad').value,
     antiguedad: document.getElementById('antiguedad').value,
     bloque1: preguntas.map((q, i) => ({ pregunta: q, respuesta: respuestas1[i] })),
